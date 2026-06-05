@@ -2,12 +2,67 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:FitTrackGymApp.ViewModels"
+             xmlns:models="clr-namespace:FitTrackGymApp.Models"
              x:Class="FitTrackGymApp.Views.ExercisePage"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="#121212">
 
-    <VerticalStackLayout Spacing="20" Padding="20">
-        <Label Text="Welcome to ExercisePage" 
-               FontSize="24" 
-               HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="Auto, Auto, *">
+        
+        <!-- Search Area -->
+        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="15" ColumnSpacing="10">
+            <Entry Grid.Column="0" 
+                   Placeholder="Search exercise (e.g. Biceps, Squat)..." 
+                   Text="{Binding SearchText}"
+                   TextColor="White"
+                   PlaceholderColor="#AAAAAA"
+                   BackgroundColor="#1E1E1E"
+                   ClearButtonVisibility="WhileEditing"/>
+                   
+            <Button Grid.Column="1" 
+                    Text="Search API" 
+                    Command="{Binding SearchCommand}" 
+                    BackgroundColor="#2196F3" 
+                    TextColor="White" 
+                    CornerRadius="8"/>
+        </Grid>
+
+        <!-- Loading Indicator -->
+        <ActivityIndicator Grid.Row="1" 
+                           IsRunning="{Binding IsBusy}" 
+                           IsVisible="{Binding IsBusy}" 
+                           Color="#2196F3" 
+                           HorizontalOptions="Center" 
+                           Margin="0,10" />
+
+        <!-- Exercises List -->
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Exercises}" Margin="15" SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Exercise">
+                    <Frame BackgroundColor="#1E1E1E" CornerRadius="12" HasShadow="True" BorderColor="Transparent" Padding="15" Margin="0,0,0,15">
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="{Binding Name}" TextColor="White" FontSize="20" FontAttributes="Bold" />
+                            
+                            <HorizontalStackLayout Spacing="10">
+                                <Frame BackgroundColor="#333333" Padding="5,2" CornerRadius="5" BorderColor="Transparent">
+                                    <Label Text="{Binding TargetMuscle, StringFormat='Muscle: {0}'}" TextColor="#4CAF50" FontSize="12" />
+                                </Frame>
+                                <Frame BackgroundColor="#333333" Padding="5,2" CornerRadius="5" BorderColor="Transparent">
+                                    <Label Text="{Binding Difficulty, StringFormat='Difficulty: {0}'}" TextColor="#FF9800" FontSize="12" />
+                                </Frame>
+                                <Frame BackgroundColor="#333333" Padding="5,2" CornerRadius="5" BorderColor="Transparent">
+                                    <Label Text="{Binding Equipment, StringFormat='Requires: {0}'}" TextColor="#2196F3" FontSize="12" />
+                                </Frame>
+                            </HorizontalStackLayout>
+                            
+                            <Label Text="{Binding Instructions}" TextColor="#AAAAAA" FontSize="14" Margin="0,10,0,0" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label Text="Search for an exercise to see live results." TextColor="#AAAAAA" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,50,0,0" />
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </Grid>
 </ContentPage>

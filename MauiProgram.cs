@@ -46,6 +46,10 @@ public static class MauiProgram
 		builder.Services.AddTransient<AttendanceViewModel>();
 		builder.Services.AddTransient<AttendancePage>();
 
+		builder.Services.AddSingleton<ExerciseApiService>();
+		builder.Services.AddTransient<ExerciseViewModel>();
+		builder.Services.AddTransient<ExercisePage>();
+
 		return builder.Build();
 	}
 }
