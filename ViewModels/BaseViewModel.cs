@@ -6,7 +6,7 @@ namespace FitTrackGymApp.ViewModels;
 public partial class BaseViewModel : INotifyPropertyChanged
 {
     bool isBusy;
-    string title;
+    string? title;
 
     public bool IsBusy
     {
@@ -19,7 +19,7 @@ public partial class BaseViewModel : INotifyPropertyChanged
         }
     }
 
-    public string Title
+    public string? Title
     {
         get => title;
         set
@@ -30,9 +30,9 @@ public partial class BaseViewModel : INotifyPropertyChanged
         }
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
-    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
