@@ -4,9 +4,18 @@ namespace FitTrackGymApp.Views;
 
 public partial class PaymentsPage : ContentPage
 {
-    public PaymentsPage()
+    public PaymentsPage(PaymentsViewModel viewModel)
     {
         InitializeComponent();
-        BindingContext = new PaymentsViewModel();
+        BindingContext = viewModel;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is PaymentsViewModel vm)
+        {
+            await vm.LoadDataAsync();
+        }
     }
 }

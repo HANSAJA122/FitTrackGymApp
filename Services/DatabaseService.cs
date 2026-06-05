@@ -80,4 +80,49 @@ public class DatabaseService
         _dbContext.Members.Remove(member);
         return await _dbContext.SaveChangesAsync();
     }
+
+    // --- Payment CRUD Operations ---
+
+    public async Task<List<Payment>> GetPaymentsAsync()
+    {
+        return await _dbContext.Payments.Include(p => p.Member).ToListAsync();
+    }
+
+    public async Task<List<Payment>> SearchPaymentsAsync(string searchTerm)
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm)) 
+            return await GetPaymentsAsync();
+        
+        return await _dbContext.Payments
+            .Include(p => p.Member)
+            .Where(p => p.Member.FullName.ToLower().Contains(searchTerm.ToLower()) || 
+                        p.Status.ToLower().Contains(searchTerm.ToLower()))
+            .ToListAsync();
+    }
+
+    public async Task<int> AddPaymentAsync(Payment payment)
+    {
+        _dbContext.Payments.Add(payment);
+        return await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<int> UpdatePaymentAsync(Payment payment)
+    {
+        _dbContext.Payments.Update(payment);
+        return await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<int> DeletePaymentAsync(Payment payment)
+    {
+        _dbContext.Payments.Remove(payment);
+        return await _dbContext.SaveChangesAsync();
+    }
+
+    // --- Dashboard Stats ---
+    
+    public async Task<int> GetTotalMembersCountAsync() => await _dbContext.Members.CountAsync();
+    
+    public async Task<int> GetActiveMembersCountAsync() => await _dbContext.Members.CountAsync(m => m.Status == "Active");
+    
+    public async Task<int> GetPendingPaymentsCountAsync() => await _dbContext.Payments.CountAsync(p => p.Status == "Pending");
 }

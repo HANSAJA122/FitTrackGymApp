@@ -4,9 +4,18 @@ namespace FitTrackGymApp.Views;
 
 public partial class DashboardPage : ContentPage
 {
-    public DashboardPage()
+    public DashboardPage(DashboardViewModel viewModel)
     {
         InitializeComponent();
-        BindingContext = new DashboardViewModel();
+        BindingContext = viewModel;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is DashboardViewModel vm)
+        {
+            await vm.LoadDashboardStatsAsync();
+        }
     }
 }
