@@ -7,8 +7,8 @@ public class ExerciseApiService
 {
     private readonly HttpClient _httpClient;
     
-    // IMPORTANT: Add your free API key from https://api-ninjas.com/profile
-    // Get a free key and paste it between the quotes below to test the API.
+    // IMPORTANT: Get a free key from https://api-ninjas.com/profile
+    // Paste your API key here for local testing only. Do not commit real API keys to GitHub.
     private const string ApiKey = ""; 
     private const string BaseUrl = "https://api.api-ninjas.com/v1/exercises";
 

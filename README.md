@@ -49,6 +49,11 @@ This project was built step-by-step to track members, manage membership plans, m
 
 For the viva or testing, the app has built-in safe fallbacks, meaning it will perfectly function without API keys. However, for the full experience, add the keys!
 
+**⚠️ CRITICAL SECURITY WARNING:**
+- Paste your API keys directly into the Service files for local testing only.
+- **Do not commit real API keys to GitHub.** If you plan to push your code, always remove your keys and leave the string empty (`""`) before committing.
+- If the API keys are left empty, the app intelligently switches to fallback mode (e.g. simulated AI workout) so it never crashes!
+
 ### 1. Exercise API (API-Ninjas)
 1. Go to [api-ninjas.com](https://api-ninjas.com/) and create a free account.
 2. Copy your API Key.

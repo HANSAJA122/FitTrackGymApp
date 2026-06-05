@@ -1,2 +1,8 @@
 bin/
 obj/
+
+# Local secrets and config
+appsettings.Local.json
+secrets.json
+*.secrets.json
+.env

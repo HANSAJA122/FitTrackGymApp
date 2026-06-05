@@ -6,7 +6,7 @@ namespace FitTrackGymApp.Services;
 public class AiWorkoutService
 {
     // IMPORTANT: Get a FREE Gemini API Key from https://aistudio.google.com/
-    // Paste it between the quotes below to enable REAL AI. 
+    // Paste your API key here for local testing only. Do not commit real API keys to GitHub.
     // If left blank, the app will automatically use the simulated fallback plan.
     private const string ApiKey = ""; 
     private const string GeminiApiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
