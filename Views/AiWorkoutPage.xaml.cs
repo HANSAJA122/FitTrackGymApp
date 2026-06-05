@@ -4,9 +4,9 @@ namespace FitTrackGymApp.Views;
 
 public partial class AiWorkoutPage : ContentPage
 {
-    public AiWorkoutPage()
+    public AiWorkoutPage(AiWorkoutViewModel viewModel)
     {
         InitializeComponent();
-        BindingContext = new AiWorkoutViewModel();
+        BindingContext = viewModel;
     }
 }

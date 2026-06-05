@@ -50,6 +50,10 @@ public static class MauiProgram
 		builder.Services.AddTransient<ExerciseViewModel>();
 		builder.Services.AddTransient<ExercisePage>();
 
+		builder.Services.AddSingleton<AiWorkoutService>();
+		builder.Services.AddTransient<AiWorkoutViewModel>();
+		builder.Services.AddTransient<AiWorkoutPage>();
+
 		return builder.Build();
 	}
 }
