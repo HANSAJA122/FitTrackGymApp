@@ -43,6 +43,9 @@ public static class MauiProgram
 		builder.Services.AddTransient<DashboardViewModel>();
 		builder.Services.AddTransient<DashboardPage>();
 
+		builder.Services.AddTransient<AttendanceViewModel>();
+		builder.Services.AddTransient<AttendancePage>();
+
 		return builder.Build();
 	}
 }

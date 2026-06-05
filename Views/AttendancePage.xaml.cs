@@ -4,9 +4,18 @@ namespace FitTrackGymApp.Views;
 
 public partial class AttendancePage : ContentPage
 {
-    public AttendancePage()
+    public AttendancePage(AttendanceViewModel viewModel)
     {
         InitializeComponent();
-        BindingContext = new AttendanceViewModel();
+        BindingContext = viewModel;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is AttendanceViewModel vm)
+        {
+            await vm.LoadDataAsync();
+        }
     }
 }

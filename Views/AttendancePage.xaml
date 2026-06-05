@@ -2,12 +2,76 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:FitTrackGymApp.ViewModels"
+             xmlns:models="clr-namespace:FitTrackGymApp.Models"
              x:Class="FitTrackGymApp.Views.AttendancePage"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="#121212">
 
-    <VerticalStackLayout Spacing="20" Padding="20">
-        <Label Text="Welcome to AttendancePage" 
-               FontSize="24" 
-               HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="Auto, Auto, *">
+        
+        <!-- Search Bar -->
+        <SearchBar Grid.Row="0" 
+                   Placeholder="Search attendance by member name..." 
+                   Text="{Binding SearchText}"
+                   TextColor="White"
+                   PlaceholderColor="#AAAAAA"
+                   BackgroundColor="#1E1E1E"
+                   CancelButtonColor="White"
+                   Margin="15,15,15,0" />
+
+        <!-- Check-in Form -->
+        <Frame Grid.Row="1" BackgroundColor="#1E1E1E" CornerRadius="12" HasShadow="True" BorderColor="Transparent" Padding="15" Margin="15">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Quick Check-in" TextColor="White" FontSize="18" FontAttributes="Bold" />
+                
+                <Grid ColumnDefinitions="*, Auto" ColumnSpacing="15">
+                    <Picker Grid.Column="0"
+                            Title="Select Member" 
+                            ItemsSource="{Binding Members}" 
+                            ItemDisplayBinding="{Binding FullName}"
+                            SelectedItem="{Binding SelectedMember}"
+                            TextColor="White" 
+                            BackgroundColor="#2C2C2C" 
+                            VerticalOptions="Center" />
+
+                    <Button Grid.Column="1" 
+                            Text="Check In" 
+                            Command="{Binding CheckInCommand}" 
+                            BackgroundColor="#FF9800" 
+                            TextColor="White" 
+                            CornerRadius="8"
+                            VerticalOptions="Center" />
+                </Grid>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- CollectionView for Attendance History -->
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Attendances}" Margin="15,0,15,15" SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Attendance">
+                    <Frame BackgroundColor="#1E1E1E" CornerRadius="12" HasShadow="True" BorderColor="Transparent" Padding="15" Margin="0,0,0,10">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                                <Label Text="{Binding Member.FullName}" TextColor="White" FontSize="18" FontAttributes="Bold" />
+                                <Label Text="{Binding CheckInDateTime, StringFormat='{0:MMM dd, yyyy - hh:mm tt}'}" TextColor="#AAAAAA" FontSize="14" Margin="0,5,0,0" />
+                            </VerticalStackLayout>
+                            
+                            <Button Grid.Column="1"
+                                    Text="Delete" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AttendanceViewModel}}, Path=DeleteAttendanceCommand}"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="#F44336" 
+                                    TextColor="White" 
+                                    CornerRadius="5"
+                                    VerticalOptions="Center" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label Text="No attendance records found." TextColor="#AAAAAA" HorizontalOptions="Center" VerticalOptions="Center" />
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+    </Grid>
 </ContentPage>

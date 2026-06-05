@@ -44,7 +44,7 @@
                 <Frame Grid.Row="1" Grid.Column="1" BackgroundColor="#1E1E1E" CornerRadius="12" HasShadow="True" BorderColor="Transparent" Padding="15">
                     <VerticalStackLayout>
                         <Label Text="Today Check-ins" TextColor="#AAAAAA" FontSize="14"/>
-                        <Label Text="45" TextColor="#FF9800" FontSize="28" FontAttributes="Bold" Margin="0,5,0,0"/>
+                        <Label Text="{Binding TodayCheckins}" TextColor="#FF9800" FontSize="28" FontAttributes="Bold" Margin="0,5,0,0"/>
                     </VerticalStackLayout>
                 </Frame>
 
