@@ -3,11 +3,59 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:FitTrackGymApp.ViewModels"
              x:Class="FitTrackGymApp.Views.AddEditMemberPage"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="#121212">
 
-    <VerticalStackLayout Spacing="20" Padding="20">
-        <Label Text="Welcome to AddEditMemberPage" 
-               FontSize="24" 
-               HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="20">
+            
+            <Label Text="Full Name" TextColor="#AAAAAA" FontSize="14"/>
+            <Entry Text="{Binding FullName}" Placeholder="Enter full name" TextColor="White" BackgroundColor="#1E1E1E" />
+
+            <Label Text="Phone Number" TextColor="#AAAAAA" FontSize="14"/>
+            <Entry Text="{Binding PhoneNumber}" Placeholder="Enter phone number" Keyboard="Telephone" TextColor="White" BackgroundColor="#1E1E1E" />
+
+            <Label Text="Email" TextColor="#AAAAAA" FontSize="14"/>
+            <Entry Text="{Binding Email}" Placeholder="Enter email address" Keyboard="Email" TextColor="White" BackgroundColor="#1E1E1E" />
+
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                <VerticalStackLayout Grid.Column="0" Spacing="5">
+                    <Label Text="Age" TextColor="#AAAAAA" FontSize="14"/>
+                    <Entry Text="{Binding Age}" Placeholder="Age" Keyboard="Numeric" TextColor="White" BackgroundColor="#1E1E1E" />
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                    <Label Text="Gender" TextColor="#AAAAAA" FontSize="14"/>
+                    <Picker SelectedItem="{Binding Gender}" Title="Select Gender" TextColor="White" BackgroundColor="#1E1E1E">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Male</x:String>
+                                <x:String>Female</x:String>
+                                <x:String>Other</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </VerticalStackLayout>
+            </Grid>
+
+            <Label Text="Join Date" TextColor="#AAAAAA" FontSize="14"/>
+            <DatePicker Date="{Binding JoinDate}" TextColor="White" BackgroundColor="#1E1E1E" />
+
+            <Label Text="Status" TextColor="#AAAAAA" FontSize="14"/>
+            <Picker SelectedItem="{Binding Status}" Title="Select Status" TextColor="White" BackgroundColor="#1E1E1E">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Active</x:String>
+                        <x:String>Expired</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="15" Margin="0,20,0,0">
+                <Button Grid.Column="0" Text="Cancel" Command="{Binding CancelCommand}" BackgroundColor="#555555" TextColor="White" CornerRadius="8" />
+                <Button Grid.Column="1" Text="Save" Command="{Binding SaveCommand}" BackgroundColor="#4CAF50" TextColor="White" CornerRadius="8" />
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

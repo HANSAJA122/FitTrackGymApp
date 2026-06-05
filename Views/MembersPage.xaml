@@ -2,12 +2,69 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:FitTrackGymApp.ViewModels"
+             xmlns:models="clr-namespace:FitTrackGymApp.Models"
              x:Class="FitTrackGymApp.Views.MembersPage"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="#121212">
 
-    <VerticalStackLayout Spacing="20" Padding="20">
-        <Label Text="Welcome to MembersPage" 
-               FontSize="24" 
-               HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="Auto, *">
+        
+        <!-- Search Bar and Add Button -->
+        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="15">
+            <SearchBar Grid.Column="0" 
+                       Placeholder="Search members..." 
+                       Text="{Binding SearchText}"
+                       TextColor="White"
+                       PlaceholderColor="#AAAAAA"
+                       BackgroundColor="#1E1E1E"
+                       CancelButtonColor="White" />
+                       
+            <Button Grid.Column="1" 
+                    Text="+ Add Member" 
+                    Command="{Binding AddMemberCommand}" 
+                    BackgroundColor="#4CAF50" 
+                    TextColor="White" 
+                    CornerRadius="8"
+                    Margin="10,0,0,0"/>
+        </Grid>
+
+        <!-- CollectionView for Members -->
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Members}" Margin="15" SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Member">
+                    <Frame BackgroundColor="#1E1E1E" CornerRadius="12" HasShadow="True" BorderColor="Transparent" Padding="15" Margin="0,0,0,10">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <!-- Member Details -->
+                            <VerticalStackLayout Grid.Column="0">
+                                <Label Text="{Binding FullName}" TextColor="White" FontSize="18" FontAttributes="Bold" />
+                                <Label Text="{Binding Email}" TextColor="#AAAAAA" FontSize="14" />
+                                <Label Text="{Binding PhoneNumber}" TextColor="#AAAAAA" FontSize="14" />
+                                <Label Text="{Binding Status}" TextColor="#AAAAAA" FontSize="14" FontAttributes="Bold" Margin="0,5,0,0"/>
+                            </VerticalStackLayout>
+                            
+                            <!-- Actions -->
+                            <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
+                                <Button Text="Edit" 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MembersViewModel}}, Path=EditMemberCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="#2196F3" 
+                                        TextColor="White" 
+                                        CornerRadius="5" />
+                                <Button Text="Delete" 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MembersViewModel}}, Path=DeleteMemberCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="#F44336" 
+                                        TextColor="White" 
+                                        CornerRadius="5" />
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label Text="No members found." TextColor="#AAAAAA" HorizontalOptions="Center" VerticalOptions="Center" />
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+    </Grid>
 </ContentPage>

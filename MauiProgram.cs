@@ -1,6 +1,8 @@
 using Microsoft.Extensions.Logging;
 using FitTrackGymApp.Data;
 using FitTrackGymApp.Services;
+using FitTrackGymApp.ViewModels;
+using FitTrackGymApp.Views;
 
 namespace FitTrackGymApp;
 
@@ -24,6 +26,13 @@ public static class MauiProgram
 		// Register Services and Database
 		builder.Services.AddDbContext<AppDbContext>();
 		builder.Services.AddSingleton<DatabaseService>();
+
+		// Register Pages and ViewModels
+		builder.Services.AddTransient<MembersViewModel>();
+		builder.Services.AddTransient<MembersPage>();
+		
+		builder.Services.AddTransient<AddEditMemberViewModel>();
+		builder.Services.AddTransient<AddEditMemberPage>();
 
 		return builder.Build();
 	}

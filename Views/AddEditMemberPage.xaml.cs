@@ -4,9 +4,9 @@ namespace FitTrackGymApp.Views;
 
 public partial class AddEditMemberPage : ContentPage
 {
-    public AddEditMemberPage()
+    public AddEditMemberPage(AddEditMemberViewModel viewModel)
     {
         InitializeComponent();
-        BindingContext = new AddEditMemberViewModel();
+        BindingContext = viewModel;
     }
 }
