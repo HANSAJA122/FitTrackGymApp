@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="FitTrackGymApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:FitTrackGymApp"
+    xmlns:views="clr-namespace:FitTrackGymApp.Views"
+    Shell.FlyoutBehavior="Flyout"
+    Title="FitTrackGymApp">
+
+    <FlyoutItem Title="Dashboard" Icon="home.png">
+        <ShellContent Route="DashboardPage" ContentTemplate="{DataTemplate views:DashboardPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Members" Icon="people.png">
+        <ShellContent Route="MembersPage" ContentTemplate="{DataTemplate views:MembersPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Plans" Icon="card.png">
+        <ShellContent Route="PlansPage" ContentTemplate="{DataTemplate views:PlansPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Payments" Icon="cash.png">
+        <ShellContent Route="PaymentsPage" ContentTemplate="{DataTemplate views:PaymentsPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Attendance" Icon="calendar.png">
+        <ShellContent Route="AttendancePage" ContentTemplate="{DataTemplate views:AttendancePage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Exercises" Icon="gym.png">
+        <ShellContent Route="ExercisePage" ContentTemplate="{DataTemplate views:ExercisePage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="AI Workout" Icon="ai.png">
+        <ShellContent Route="AiWorkoutPage" ContentTemplate="{DataTemplate views:AiWorkoutPage}" />
+    </FlyoutItem>
+    
+    <FlyoutItem Title="Settings" Icon="settings.png">
+        <ShellContent Route="SettingsPage" ContentTemplate="{DataTemplate views:SettingsPage}" />
+    </FlyoutItem>
+
+</Shell>

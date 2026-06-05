@@ -1,0 +1,9 @@
+namespace FitTrackGymApp.ViewModels;
+
+public partial class DashboardViewModel : BaseViewModel
+{
+    public DashboardViewModel()
+    {
+        Title = "Dashboard";
+    }
+}
