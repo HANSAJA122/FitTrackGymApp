@@ -19,10 +19,29 @@ public class DatabaseService
         await _dbContext.Database.EnsureCreatedAsync();
     }
 
-    // A simple test method for retrieving the seeded plans
+    // --- Membership Plan CRUD Operations ---
+
     public async Task<List<MembershipPlan>> GetPlansAsync()
     {
         return await _dbContext.MembershipPlans.ToListAsync();
+    }
+
+    public async Task<int> AddMembershipPlanAsync(MembershipPlan plan)
+    {
+        _dbContext.MembershipPlans.Add(plan);
+        return await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<int> UpdateMembershipPlanAsync(MembershipPlan plan)
+    {
+        _dbContext.MembershipPlans.Update(plan);
+        return await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<int> DeleteMembershipPlanAsync(MembershipPlan plan)
+    {
+        _dbContext.MembershipPlans.Remove(plan);
+        return await _dbContext.SaveChangesAsync();
     }
 
     // --- Member CRUD Operations ---

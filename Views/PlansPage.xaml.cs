@@ -4,9 +4,18 @@ namespace FitTrackGymApp.Views;
 
 public partial class PlansPage : ContentPage
 {
-    public PlansPage()
+    public PlansPage(PlansViewModel viewModel)
     {
         InitializeComponent();
-        BindingContext = new PlansViewModel();
+        BindingContext = viewModel;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is PlansViewModel vm)
+        {
+            await vm.LoadPlansAsync();
+        }
     }
 }
