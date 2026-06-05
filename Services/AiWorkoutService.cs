@@ -1,33 +1,83 @@
+using System.Net.Http.Json;
 using FitTrackGymApp.Models;
 
 namespace FitTrackGymApp.Services;
 
 public class AiWorkoutService
 {
-    // IMPORTANT: Add your GenAI API Key here (e.g., OpenAI or Gemini) if you decide to use a real API.
-    private const string ApiKey = "YOUR_AI_API_KEY_HERE";
+    // IMPORTANT: Get a FREE Gemini API Key from https://aistudio.google.com/
+    // Paste it between the quotes below to enable REAL AI. 
+    // If left blank, the app will automatically use the simulated fallback plan.
+    private const string ApiKey = ""; 
+    private const string GeminiApiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+
+    private readonly HttpClient _httpClient;
+
+    public AiWorkoutService()
+    {
+        _httpClient = new HttpClient();
+    }
 
     public async Task<AiWorkoutResponse> GenerateWorkoutPlanAsync(AiWorkoutRequest request)
     {
         try
         {
-            // Simulate network delay for a real API call (e.g., 2 seconds)
-            await Task.Delay(2000);
-
-            // Here is where you would normally write code to call OpenAI/Gemini using HttpClient.
-            // For example:
-            // var response = await _httpClient.PostAsJsonAsync("https://api.openai.com/v1/completions", requestPayload);
-            // var result = await response.Content.ReadFromJsonAsync<...>();
-
-            // --- SIMULATED AI RESPONSE FOR TESTING ---
-            // If the user hasn't provided a real API key, we generate a smart fallback string based on their inputs.
-            string plan = BuildSimulatedPlan(request);
-
-            return new AiWorkoutResponse
+            // 1. If no API key is provided, use the simulated fallback for viva testing
+            if (string.IsNullOrWhiteSpace(ApiKey))
             {
-                IsSuccess = true,
-                SuggestionText = plan
+                await Task.Delay(1500); // Simulate network delay
+                return new AiWorkoutResponse
+                {
+                    IsSuccess = true,
+                    SuggestionText = BuildSimulatedPlan(request)
+                };
+            }
+
+            // 2. If an API key IS provided, make a REAL call to Google's Gemini AI
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                throw new Exception("No internet connection.");
+            }
+
+            // Create the prompt for the AI
+            string prompt = $"Act as an expert personal trainer. Create a short, highly effective 1-week workout plan for a {request.Age} year old {request.ExperienceLevel} aiming for {request.Goal}. They can work out {request.DaysPerWeek} days a week. Keep it concise, motivational, and easy to read. Do not use markdown headers, just simple bullet points.";
+
+            // Construct the exact JSON payload expected by Gemini
+            var payload = new
+            {
+                contents = new[]
+                {
+                    new { parts = new[] { new { text = prompt } } }
+                }
             };
+
+            // Send the request
+            string urlWithKey = $"{GeminiApiUrl}?key={ApiKey}";
+            var response = await _httpClient.PostAsJsonAsync(urlWithKey, payload);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Parse the Gemini JSON response
+                var jsonResult = await response.Content.ReadFromJsonAsync<System.Text.Json.JsonElement>();
+                
+                // Extract the generated text from the nested JSON structure
+                string generatedText = jsonResult
+                    .GetProperty("candidates")[0]
+                    .GetProperty("content")
+                    .GetProperty("parts")[0]
+                    .GetProperty("text").GetString() ?? "Could not extract text.";
+
+                return new AiWorkoutResponse
+                {
+                    IsSuccess = true,
+                    SuggestionText = generatedText.Trim()
+                };
+            }
+            else
+            {
+                string errorBody = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Gemini API failed: {response.StatusCode}");
+            }
         }
         catch (Exception ex)
         {
@@ -41,7 +91,7 @@ public class AiWorkoutService
 
     private string BuildSimulatedPlan(AiWorkoutRequest req)
     {
-        string basePlan = $"AI Suggested Plan for {req.Age}yo {req.ExperienceLevel} aiming for {req.Goal}:\n\n";
+        string basePlan = $"[SIMULATED MODE - ADD API KEY FOR REAL AI]\n\nAI Suggested Plan for {req.Age}yo {req.ExperienceLevel} aiming for {req.Goal}:\n\n";
 
         if (req.Goal == "Weight Loss")
             basePlan += "• Focus on high intensity interval training (HIIT) and cardio.\n";
